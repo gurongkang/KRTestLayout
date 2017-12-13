@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface KRSafeAreaTableViewViewController : UIViewController
+@interface KRTableViewViewController : UIViewController
 
 @end

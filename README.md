@@ -174,15 +174,15 @@ tableView的contentSize包括的：
 
 <img src="https://github.com/gurongkang/KRTestLayout/raw/master/images/site3.png" width="500">
 
-（4）情景四：有cell，有contentInset，没有tableHeaderView\tableFooterView）
+（4）情景四：有cell，有contentInset，没有tableHeaderView\tableFooterView
 
 <img src="https://github.com/gurongkang/KRTestLayout/raw/master/images/site4.png" width="500">
 
-（5）情景五：有cell，没有contentInset，有tableHeaderView\tableFooterView）
+（5）情景五：有cell，没有contentInset，有tableHeaderView\tableFooterView
 
 <img src="https://github.com/gurongkang/KRTestLayout/raw/master/images/site5.png" width="500">
 
-（6）情景六：有cell，有contentInset，有tableHeaderView\tableFooterView）
+（6）情景六：有cell，有contentInset，有tableHeaderView\tableFooterView
 
 <img src="https://github.com/gurongkang/KRTestLayout/raw/master/images/site6.png" width="500">
 
@@ -192,7 +192,7 @@ tableView的contentSize包括的：
 
 <img src="https://github.com/gurongkang/KRTestLayout/raw/master/images/site7.2.png" width="500">
 
-（8）情景八：有cell，有contentInset，没有tableHeaderView\tableFooterVi添加了一个子控件，frame是CGRectMake(0,-50, 300, 50)，子控件的frame以父控件内容左上角为坐标原点{0,0}
+（8）情景八：有cell，有contentInset，没有tableHeaderView\tableFooterView,添加了一个子控件，frame是CGRectMake(0,-50, 300, 50)，子控件的frame以父控件内容左上角为坐标原点{0,0}
 
 <img src="https://github.com/gurongkang/KRTestLayout/raw/master/images/site8.1.png" width="500">
 
@@ -203,6 +203,135 @@ tableView的contentSize包括的：
 <img src="https://github.com/gurongkang/KRTestLayout/raw/master/images/site9.1.png" width="500">
 
 <img src="https://github.com/gurongkang/KRTestLayout/raw/master/images/site9.2.png" width="500">
+
+**在iOS11增加了两个新的属性**
+
+```objc
+adjustContentInset
+contentInsetAdjustmentBehavior
+```
+
+进头文件里面去看看
+
+```objc
+/* When contentInsetAdjustmentBehavior allows, UIScrollView may incorporate
+ its safeAreaInsets into the adjustedContentInset.
+ */
+@property(nonatomic, readonly) UIEdgeInsets adjustedContentInset API_AVAILABLE(ios(11.0),tvos(11.0));
+
+/* Also see -scrollViewDidChangeAdjustedContentInset: in the UIScrollViewDelegate protocol.
+ */
+- (void)adjustedContentInsetDidChange API_AVAILABLE(ios(11.0),tvos(11.0)) NS_REQUIRES_SUPER;
+
+/* Configure the behavior of adjustedContentInset.
+ Default is UIScrollViewContentInsetAdjustmentAutomatic.
+ */
+@property(nonatomic) UIScrollViewContentInsetAdjustmentBehavior contentInsetAdjustmentBehavior API_AVAILABLE(ios(11.0),tvos(11.0));
+
+```
+adjustedContentInset是一个只读属性，我们不可以改变，那么它的值代表什么呢？怎么才会改变的？
+
+adjustedContentInset代表的含义和contentInset 是一样的，contentView.frame.origin偏移了scrollview.frame.origin多少。
+
+adjustedContentInset是只读的，它的值由safeAreaInset 与 contentInset 计算而来的，计算方式由以下4种方式，由新加的枚举属性`contentInsetAdjustmentBehavior`决定
+
+```objc
+typedef NS_ENUM(NSInteger, UIScrollViewContentInsetAdjustmentBehavior) {
+    UIScrollViewContentInsetAdjustmentAutomatic, // Similar to .scrollableAxes, but for backward compatibility will also adjust the top & bottom contentInset when the scroll view is owned by a view controller with automaticallyAdjustsScrollViewInsets = YES inside a navigation controller, regardless of whether the scroll view is scrollable
+    UIScrollViewContentInsetAdjustmentScrollableAxes, // Edges for scrollable axes are adjusted (i.e., contentSize.width/height > frame.size.width/height or alwaysBounceHorizontal/Vertical = YES)
+    UIScrollViewContentInsetAdjustmentNever, // contentInset is not adjusted
+    UIScrollViewContentInsetAdjustmentAlways, // contentInset is always adjusted by the scroll view's safeAreaInsets
+} API
+```
+>测试代码见项目中KRSafeAreaViewController控制器，测试值在iOS 11 iPhone 8中打印
+
+**(1)当contentInsetAdjustmentBehavior为UIScrollViewContentInsetAdjustmentAutomatic时**
+
+如果scrollview在一个contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentAutomatic的controller上，并且这个Controller包含在一个navigation controller中，这种情况下会设置在top & bottom上 adjustedContentInset = safeAreaInset + contentInset 不管是否滚动。
+
+```objc
+- (void)testAdjustContentInsetAutomatic {
+    if (@available(iOS 11.0, *)) {
+        self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentAutomatic;
+        
+        self.tableView.contentInset = UIEdgeInsetsMake(60, 0, 0, 0);
+//        2017-12-13 16:21:09.759001+0800 KRTestLayout[6338:1032624] contentInset-> {60, 0, 0, 0}
+//        2017-12-13 16:21:09.759123+0800 KRTestLayout[6338:1032624] safeAreaInsets-> {64, 0, 0, 0}
+//        2017-12-13 16:21:09.759214+0800 KRTestLayout[6338:1032624] additionalSafeAreaInsets-> {0, 0, 0, 0}
+//        2017-12-13 16:21:09.759306+0800 KRTestLayout[6338:1032624] adjustedContentInset-> {124, 0, 0, 0}
+        self.additionalSafeAreaInsets =  UIEdgeInsetsMake(120, 0, 0, 0);
+//        2017-12-13 16:22:20.659263+0800 KRTestLayout[6368:1037697] contentInset-> {60, 0, 0, 0}
+//        2017-12-13 16:22:20.659419+0800 KRTestLayout[6368:1037697] safeAreaInsets-> {184, 0, 0, 0}
+//        2017-12-13 16:22:20.659537+0800 KRTestLayout[6368:1037697] additionalSafeAreaInsets-> {120, 0, 0, 0}
+//        2017-12-13 16:22:20.659649+0800 KRTestLayout[6368:1037697] adjustedContentInset-> {244, 0, 0, 0}
+    }
+}
+```
+
+**(2)当contentInsetAdjustmentBehavior为UIScrollViewContentInsetAdjustmentScrollableAxes时**
+
+在可滚动方向上adjustedContentInset = safeAreaInset + contentInset，在不可滚动方向上adjustedContentInset = contentInset；依赖于scrollEnabled和alwaysBounceHorizontal / vertical = YES，scrollEnabled默认为yes，所以大多数情况下，计算方式还是adjustedContentInset = safeAreaInset + contentInset
+
+```objc
+- (void)testAdjustContentInsetScrollableAxes {
+    if (@available(iOS 11.0, *)) {
+        self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentScrollableAxes;
+        
+        self.tableView.contentInset = UIEdgeInsetsMake(60, 0, 0, 0);
+//        2017-12-13 16:30:01.264643+0800 KRTestLayout[6507:1064131] contentInset-> {60, 0, 0, 0}
+//        2017-12-13 16:30:01.264804+0800 KRTestLayout[6507:1064131] safeAreaInsets-> {64, 0, 0, 0}
+//        2017-12-13 16:30:01.264890+0800 KRTestLayout[6507:1064131] additionalSafeAreaInsets-> {0, 0, 0, 0}
+//        2017-12-13 16:30:01.264983+0800 KRTestLayout[6507:1064131] adjustedContentInset-> {124, 0, 0, 0}
+        
+        self.tableView.scrollEnabled = NO;
+//        2017-12-13 16:30:47.083295+0800 KRTestLayout[6539:1067398] contentInset-> {60, 0, 0, 0}
+//        2017-12-13 16:30:47.083438+0800 KRTestLayout[6539:1067398] safeAreaInsets-> {0, 0, 0, 0}
+//        2017-12-13 16:30:47.083549+0800 KRTestLayout[6539:1067398] additionalSafeAreaInsets-> {0, 0, 0, 0}
+//        2017-12-13 16:30:47.083636+0800 KRTestLayout[6539:1067398] adjustedContentInset-> {60, 0, 0, 0}
+    }
+}
+```
+
+**(3)当contentInsetAdjustmentBehavior为UIScrollViewContentInsetAdjustmentNever时**
+
+adjustContentInset值不受SafeAreaInset值的影响。
+
+adjustedContentInset = contentInset
+
+```
+- (void)testAdjustContentInsetNever {
+    if (@available(iOS 11.0, *)) {
+        self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        self.tableView.contentInset = UIEdgeInsetsMake(60, 0, 0, 0);
+        
+//        2017-12-13 16:33:20.537079+0800 KRTestLayout[6618:1080094] contentInset-> {60, 0, 0, 0}
+//        2017-12-13 16:33:20.537246+0800 KRTestLayout[6618:1080094] safeAreaInsets-> {0, 0, 0, 0}
+//        2017-12-13 16:33:20.537390+0800 KRTestLayout[6618:1080094] additionalSafeAreaInsets-> {0, 0, 0, 0}
+//        2017-12-13 16:33:20.537490+0800 KRTestLayout[6618:1080094] adjustedContentInset-> {60, 0, 0, 0}
+    }
+}
+```
+
+**(4)当contentInsetAdjustmentBehavior为UIScrollViewContentInsetAdjustmentAlways时**
+
+adjustedContentInset = safeAreaInset + contentInset
+
+```
+- (void)testAdjustContentInsetAlways {
+    if (@available(iOS 11.0, *)) {
+        self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentAlways;
+        self.tableView.contentInset = UIEdgeInsetsMake(60, 0, 0, 0);
+        
+//        2017-12-13 16:35:05.990422+0800 KRTestLayout[6666:1088653] contentInset-> {60, 0, 0, 0}
+//        2017-12-13 16:35:05.990543+0800 KRTestLayout[6666:1088653] safeAreaInsets-> {64, 0, 0, 0}
+//        2017-12-13 16:35:05.990670+0800 KRTestLayout[6666:1088653] additionalSafeAreaInsets-> {0, 0, 0, 0}
+//        2017-12-13 16:35:05.990771+0800 KRTestLayout[6666:1088653] adjustedContentInset-> {124, 0, 0, 0}
+    }
+}
+```
+
+UITableView中莫名多20个像素的问题
+
 
 ## 4.NavigationBar的各种边距
 

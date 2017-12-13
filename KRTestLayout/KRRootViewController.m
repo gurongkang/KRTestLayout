@@ -9,6 +9,7 @@
 #import "KRRootViewController.h"
 #import "KREdgesForExtendedLayoutViewController.h"
 #import "KRSafeAreaViewController.h"
+#import "KRTableViewViewController.h"
 
 @interface KRRootViewController () <UITableViewDataSource, UITableViewDelegate> {
     NSArray *_dataArray;
@@ -62,6 +63,11 @@
     
     if (indexPath.row == 1) {
         KRSafeAreaViewController *vc = [[KRSafeAreaViewController alloc]init];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    
+    if (indexPath.row == 2) {
+        KRTableViewViewController *vc = [[KRTableViewViewController alloc]init];
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

@@ -8,9 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		5414B7391FDFD7A900BEBBF1 /* KRSafeAreaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5414B7381FDFD7A900BEBBF1 /* KRSafeAreaViewController.m */; };
-		548B9AF91FDFEC8B00E39B4E /* KRSafeAreaTableViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 548B9AF81FDFEC8B00E39B4E /* KRSafeAreaTableViewViewController.m */; };
+		548B9AF91FDFEC8B00E39B4E /* KRTableViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 548B9AF81FDFEC8B00E39B4E /* KRTableViewViewController.m */; };
 		54D9C6791FDE78D1007E31F1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 54D9C6781FDE78D1007E31F1 /* AppDelegate.m */; };
-		54D9C67F1FDE78D1007E31F1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54D9C67D1FDE78D1007E31F1 /* Main.storyboard */; };
 		54D9C6811FDE78D1007E31F1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54D9C6801FDE78D1007E31F1 /* Assets.xcassets */; };
 		54D9C6841FDE78D1007E31F1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54D9C6821FDE78D1007E31F1 /* LaunchScreen.storyboard */; };
 		54D9C6871FDE78D1007E31F1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 54D9C6861FDE78D1007E31F1 /* main.m */; };
@@ -40,12 +39,11 @@
 /* Begin PBXFileReference section */
 		5414B7371FDFD7A900BEBBF1 /* KRSafeAreaViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KRSafeAreaViewController.h; sourceTree = "<group>"; };
 		5414B7381FDFD7A900BEBBF1 /* KRSafeAreaViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KRSafeAreaViewController.m; sourceTree = "<group>"; };
-		548B9AF71FDFEC8B00E39B4E /* KRSafeAreaTableViewViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KRSafeAreaTableViewViewController.h; sourceTree = "<group>"; };
-		548B9AF81FDFEC8B00E39B4E /* KRSafeAreaTableViewViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KRSafeAreaTableViewViewController.m; sourceTree = "<group>"; };
+		548B9AF71FDFEC8B00E39B4E /* KRTableViewViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KRTableViewViewController.h; sourceTree = "<group>"; };
+		548B9AF81FDFEC8B00E39B4E /* KRTableViewViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KRTableViewViewController.m; sourceTree = "<group>"; };
 		54D9C6741FDE78D1007E31F1 /* KRTestLayout.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KRTestLayout.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		54D9C6771FDE78D1007E31F1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		54D9C6781FDE78D1007E31F1 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		54D9C67E1FDE78D1007E31F1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		54D9C6801FDE78D1007E31F1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		54D9C6831FDE78D1007E31F1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		54D9C6851FDE78D1007E31F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -112,7 +110,6 @@
 			children = (
 				54D9C6771FDE78D1007E31F1 /* AppDelegate.h */,
 				54D9C6781FDE78D1007E31F1 /* AppDelegate.m */,
-				54D9C67D1FDE78D1007E31F1 /* Main.storyboard */,
 				54D9C6801FDE78D1007E31F1 /* Assets.xcassets */,
 				54D9C6821FDE78D1007E31F1 /* LaunchScreen.storyboard */,
 				54D9C6851FDE78D1007E31F1 /* Info.plist */,
@@ -123,8 +120,8 @@
 				54D9C6AD1FDE7D0F007E31F1 /* KREdgesForExtendedLayoutViewController.m */,
 				5414B7371FDFD7A900BEBBF1 /* KRSafeAreaViewController.h */,
 				5414B7381FDFD7A900BEBBF1 /* KRSafeAreaViewController.m */,
-				548B9AF71FDFEC8B00E39B4E /* KRSafeAreaTableViewViewController.h */,
-				548B9AF81FDFEC8B00E39B4E /* KRSafeAreaTableViewViewController.m */,
+				548B9AF71FDFEC8B00E39B4E /* KRTableViewViewController.h */,
+				548B9AF81FDFEC8B00E39B4E /* KRTableViewViewController.m */,
 			);
 			path = KRTestLayout;
 			sourceTree = "<group>";
@@ -255,7 +252,6 @@
 			files = (
 				54D9C6841FDE78D1007E31F1 /* LaunchScreen.storyboard in Resources */,
 				54D9C6811FDE78D1007E31F1 /* Assets.xcassets in Resources */,
-				54D9C67F1FDE78D1007E31F1 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,7 +277,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5414B7391FDFD7A900BEBBF1 /* KRSafeAreaViewController.m in Sources */,
-				548B9AF91FDFEC8B00E39B4E /* KRSafeAreaTableViewViewController.m in Sources */,
+				548B9AF91FDFEC8B00E39B4E /* KRTableViewViewController.m in Sources */,
 				54D9C6AE1FDE7D0F007E31F1 /* KREdgesForExtendedLayoutViewController.m in Sources */,
 				54D9C6AB1FDE7925007E31F1 /* KRRootViewController.m in Sources */,
 				54D9C6871FDE78D1007E31F1 /* main.m in Sources */,
@@ -321,14 +317,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		54D9C67D1FDE78D1007E31F1 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				54D9C67E1FDE78D1007E31F1 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		54D9C6821FDE78D1007E31F1 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
