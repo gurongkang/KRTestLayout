@@ -140,7 +140,72 @@ safeAreaInsets和safeAreaLayoutGuide
 
 ## 3.UIScrollView、UITableView的各种边距
 
+UIScrollView 可滚动视图，UITableView集成UIScrollView.
+
+令人迷惑的三个属性
+
+```objc
+contentSize
+contentInset
+contentOffset
+```
+
+**contentSize:**可以滚动的区域
+**contentOffset:**偏移量,其中分为contentOffset.y=内容的顶部和frame顶部的差值,contentOffset.x=内容的左边和frame左边的差值,
+**contentInset:**即内边距,contentInset = 在内容周围增加的间距(粘着内容),contentInset的单位是UIEdgeInsets,默认值为UIEdgeInsetsZero。
+
+几者之间关系：
+>contentOffset.y = 内容的顶部 与 frame顶部差值
+ contentInset = 在内容周围增加边距
+
+
+tableView的contentSize包括的：
+>Cell、TableViewHeaderView、TableViewFooterView、SectionHeader、 SectionFooter
+
+（1）情景一：没有cell，没有contentInset，没有tableHeaderView\tableFooterView
+
+<img src="https://github.com/gurongkang/KRTestLayout/raw/master/images/site1.png" width="320">
+
+（2）情景二：没有cell，没有contentInset，有tableHeaderView\tableFooterView
+
+<img src="https://github.com/gurongkang/KRTestLayout/raw/master/images/site2.png" width="320">
+
+（3）情景三：有cell，没有contentInset，没有tableHeaderView\tableFooterView
+
+<img src="https://github.com/gurongkang/KRTestLayout/raw/master/images/site3.png" width="320">
+
+（4）情景四：有cell，有contentInset，没有tableHeaderView\tableFooterView）
+
+<img src="https://github.com/gurongkang/KRTestLayout/raw/master/images/site4.png" width="320">
+
+（5）情景五：有cell，没有contentInset，有tableHeaderView\tableFooterView）
+
+<img src="https://github.com/gurongkang/KRTestLayout/raw/master/images/site5.png" width="320">
+
+（6）情景六：有cell，有contentInset，有tableHeaderView\tableFooterView）
+
+<img src="https://github.com/gurongkang/KRTestLayout/raw/master/images/site6.png" width="320">
+
+（7）情景七：有cell，有contentInset，没有tableHeaderView\tableFooterView，添加了一个子控件，frame是CGRectMake(0, 0, 300, 50)，子控件的frame以父控件内容左上角为坐标原点{0,0}
+
+<img src="https://github.com/gurongkang/KRTestLayout/raw/master/images/site7.1.png" width="320">
+
+<img src="https://github.com/gurongkang/KRTestLayout/raw/master/images/site7.2.png" width="320">
+
+（8）情景八：有cell，有contentInset，没有tableHeaderView\tableFooterVi添加了一个子控件，frame是CGRectMake(0,-50, 300, 50)，子控件的frame以父控件内容左上角为坐标原点{0,0}
+
+<img src="https://github.com/gurongkang/KRTestLayout/raw/master/images/site8.1.png" width="320">
+
+<img src="https://github.com/gurongkang/KRTestLayout/raw/master/images/site8.2.png" width="320">
+
+（9）情景九：有cell，没有contentInset，有tableHeaderView\tableFooterVi添加了一个子控件，frame是CGRectMake(0,-50, 300, 50)，子控件的frame以父控件内容左上角为坐标原点{0,0}
+
+<img src="https://github.com/gurongkang/KRTestLayout/raw/master/images/site9.1.png" width="320">
+
+<img src="https://github.com/gurongkang/KRTestLayout/raw/master/images/site9.2.png" width="320">
+
 ## 4.NavigationBar的各种边距
+
 
 
 
